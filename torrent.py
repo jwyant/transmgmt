@@ -146,9 +146,13 @@ class torrent(object):
 			if not srcfile:
 				if not huntlist:
 					huntlist = []
-					for directory, dirnames, filenames in os.walk(os.path.expanduser(inputdirectory)):
-						for fi in filenames:
-							huntlist.append(os.path.join(directory,fi))
+					try:
+						for directory, dirnames, filenames in os.walk(os.path.expanduser(inputdirectory)):
+							for fi in filenames:
+								huntlist.append(os.path.join(directory,fi))
+					except UnicodeDecodeError as e:
+						print e
+						print os.path.join(directory,fi)
 
 				for infile in huntlist:
 					if os.path.basename(in_filename) == os.path.basename(infile) and in_filesize == os.path.getsize(infile):
