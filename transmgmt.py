@@ -182,7 +182,7 @@ def main(sysargv):
 		listofdaemons = []
 		for d in config.jsonconfig['daemons']:
 			listofdaemons.append(daemon.daemon(d))
-		addtorrent(t,listofdaemons,sourcedir,copy=args.copy,pretend=args.pretend,dircreate=args.dircreate)
+		addtorrent(t,listofdaemons,sourcedir,copy=args.copy,pretend=args.pretend,dircreate=args.dircreate,startflag=args.start)
 
 	if args.action.lower() == 'import':
 		if len(inputlist) == 0 or inputlist[0] == 'help':
@@ -375,7 +375,7 @@ def addtodaemon(t,td,sourcedir,basedir,copy=False,pretend=False,dircreate=False)
 	else:
 		print 'pretend add torrentfile: %s torrentdirectory: %s' % (t._torrentfilepath,targetdir)
 
-def addtorrent(t,listofdaemons,sourcedir,copy=False,pretend=False,dircreate=False):
+def addtorrent(t,listofdaemons,sourcedir,copy=False,pretend=False,dircreate=False,startflag=False):
 	if daemon.hash_exists(listofdaemons,t._info_hash):
 		print 'Torrent already exists: %s' % (t._info_hash)
 	elif t._shorttracker == 'gaia.feralhosting.com':
@@ -384,7 +384,7 @@ def addtorrent(t,listofdaemons,sourcedir,copy=False,pretend=False,dircreate=Fals
 		basedir = t.find_hash(config.jsonconfig['downloadpaths'])
 		td = daemon.which_daemon(listofdaemons)
 		print 'found hash: '+basedir
-		addtodaemon(t,td,sourcedir,basedir,copy=copy,pretend=pretend,dircreate=dircreate)
+		addtodaemon(t,td,sourcedir,basedir,copy=copy,pretend=pretend,dircreate=dircreate,startflag=startflag)
 	else:
 		td = daemon.which_daemon(listofdaemons)
 		basedirs = daemon.which_basedirs_space(listofdaemons,t._size,config.jsonconfig['downloadpaths'])
@@ -393,7 +393,7 @@ def addtorrent(t,listofdaemons,sourcedir,copy=False,pretend=False,dircreate=Fals
 			if key not in basedirs:
 				del basedir_torrents[key]
 		basedir = min(basedir_torrents, key=basedir_torrents.get)
-		addtodaemon(t,td,sourcedir,basedir,copy=copy,pretend=pretend,dircreate=dircreate)
+		addtodaemon(t,td,sourcedir,basedir,copy=copy,pretend=pretend,dircreate=dircreate,startflag=startflag)
 
 def torrentimport(dottorrentfolder,listofdaemons,torrentdatafolder=None,copy=False,pretend=False,dircreate=False):
 	torrentfiles = []
