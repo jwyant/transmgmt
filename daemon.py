@@ -76,9 +76,13 @@ class daemon(object):
 		#print remainingdownload
 		return remainingdownload
 
-	def _add_torrent(self,torrentfile,torrentdirectory):
+	def _add_torrent(self,torrentfile,torrentdirectory,startflag=False):
+		if startflag == True:
+			paused = False
+		else:
+			paused = True
 		try:
-			self._client.add_torrent(torrentfile,download_dir=torrentdirectory)
+			self._client.add_torrent(torrentfile,download_dir=torrentdirectory,paused=paused)
 		except transmissionrpc.TransmissionError as e:
 			print e
 			with open(os.path.expanduser('~/.config/transmgmt/errors.log'),'a') as f:
