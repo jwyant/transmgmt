@@ -361,6 +361,11 @@ def main(sysargv):
 			print 'not sure what\'s going on here...'
 			sys.exit(1)
 
+	if args.action.lower() == 'getfilehash':
+		inputfile = ' '.join(inputlist)
+		t = torrent.torrent(inputfile)
+		print t._info_hash.lower()
+		sys.exit(0)
 
 def addtodaemon(t,td,sourcedir,basedir,copy=False,pretend=False,dircreate=False):
 	targetdir = t.sort(sourcedir,basedir,copy=copy,pretend=pretend,dircreate=dircreate)
