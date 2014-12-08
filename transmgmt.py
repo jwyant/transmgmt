@@ -367,11 +367,11 @@ def main(sysargv):
 		print t._info_hash.lower()
 		sys.exit(0)
 
-def addtodaemon(t,td,sourcedir,basedir,copy=False,pretend=False,dircreate=False):
+def addtodaemon(t,td,sourcedir,basedir,copy=False,pretend=False,dircreate=False,startflag=False):
 	targetdir = t.sort(sourcedir,basedir,copy=copy,pretend=pretend,dircreate=dircreate)
 	print 'targetdir: '+targetdir
 	if not pretend:
-		td._add_torrent(t._torrentfilepath,targetdir)
+		td._add_torrent(t._torrentfilepath,targetdir,startflag)
 	else:
 		print 'pretend add torrentfile: %s torrentdirectory: %s' % (t._torrentfilepath,targetdir)
 
